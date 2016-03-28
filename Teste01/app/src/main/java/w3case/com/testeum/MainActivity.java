@@ -9,11 +9,13 @@ import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 public class MainActivity extends Activity {
 private static final String TAG = "hello webview";
     private WebView wv;
+    private ImageView splash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,29 +25,31 @@ private static final String TAG = "hello webview";
         Log.i(TAG, "onCreate");
 
         wv = (WebView) findViewById(R.id.webView1);
+        splash = (ImageView)findViewById(R.id.imgloader);
+
         wv.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         wv.getSettings().setJavaScriptEnabled(true);
+
+         wv.setWebViewClient(new WebViewClient(){
+             @Override
+             public void onPageStarted(WebView view, String url, Bitmap favicon){
+
+             }
+
+             @Override
+             public void onPageFinished(WebView view, String url){
+                 //hide loading image
+                 splash.setVisibility(View.GONE);
+                 //show webview
+                 wv.setVisibility(View.VISIBLE);
+             }
+         });
 
         if(savedInstanceState != null){
             wv.restoreState(savedInstanceState);
         } else {
             wv.loadUrl("http://www.novanews.com.br");
         }
-
-     wv.setWebViewClient(new WebViewClient(){
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon){
-                ProgressBar pb = (ProgressBar) findViewById(R.id.progress);
-                pb.setVisibility(View.VISIBLE);
-            }
-
-         @Override
-         public void onPageFinished(WebView view, String url){
-             ProgressBar pb = (ProgressBar) findViewById(R.id.progress);
-             pb.setVisibility(View.INVISIBLE);
-             wv.setVisibility(View.VISIBLE);
-         }
-        });
     }
 
     @Override

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Backup 03.02.2016 AppCompactActivity_Bug - Copia.iml" filepath="$PROJECT_DIR$/Backup 03.02.2016 AppCompactActivity_Bug - Copia.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Teste01.iml" filepath="$PROJECT_DIR$/Teste01.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
