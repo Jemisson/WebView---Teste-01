@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,26 +19,32 @@ private static final String TAG = "hello webview";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i(TAG,"onCreate");
+
+        Log.i(TAG, "onCreate");
+
         wv = (WebView) findViewById(R.id.webView1);
-        wv.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        wv.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         wv.getSettings().setJavaScriptEnabled(true);
-        wv.loadUrl("http://www.novanews.com.br");
 
-        final ProgressBar progess = (ProgressBar) findViewById(R.id.ProgressBar);
+        if(savedInstanceState != null){
+            wv.restoreState(savedInstanceState);
+        } else {
+            wv.loadUrl("http://www.novanews.com.br");
+        }
 
-        wv.setWebViewClient(new WebViewClient(){
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                progess.setVisibility(View.VISIBLE);
-            }
-            public void onPageFinished(WebView view, String url) {
-                progess.setVisibility(View.GONE);
-            }
+     wv.setWebViewClient(new WebViewClient(){
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
+            public void onPageStarted(WebView view, String url, Bitmap favicon){
+                ProgressBar pb = (ProgressBar) findViewById(R.id.progress);
+                pb.setVisibility(View.VISIBLE);
             }
+
+         @Override
+         public void onPageFinished(WebView view, String url){
+             ProgressBar pb = (ProgressBar) findViewById(R.id.progress);
+             pb.setVisibility(View.INVISIBLE);
+             wv.setVisibility(View.VISIBLE);
+         }
         });
     }
 
